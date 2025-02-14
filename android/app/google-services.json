@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1010526533335",
+    "project_id": "vehicle-6941d",
+    "storage_bucket": "vehicle-6941d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1010526533335:android:ff55089c2ac8a57fb46292",
+        "android_client_info": {
+          "package_name": "com.example.vehicle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9d1tjJAGRRrCbJ8T57CinFQZcMK5f6yQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
