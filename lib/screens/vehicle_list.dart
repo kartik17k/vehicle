@@ -139,7 +139,7 @@ class VehicleListPage extends StatelessWidget {
                                     SizedBox(width: 16),
                                     Icon(Icons.speed, size: 16),
                                     SizedBox(width: 4),
-                                    Text('${vehicle.mileage} km/l'),
+                                    Text('${vehicle.mileage} km/lt'),
                                   ],
                                 ),
                               ],

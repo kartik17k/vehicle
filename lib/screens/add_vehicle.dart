@@ -156,7 +156,7 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                 TextFormField(
                   controller: _mileageController,
                   decoration:
-                      _buildInputDecoration('Mileage (km/l)', Icons.speed),
+                      _buildInputDecoration('Mileage (km/lt)', Icons.speed),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   validator: (value) {
                     if (value!.isEmpty) return 'Enter mileage';
