@@ -4,14 +4,18 @@ class Vehicle {
   final int year;
   final double mileage;
 
-  Vehicle({required this.id, required this.name, required this.year, required this.mileage});
+  Vehicle(
+      {required this.id,
+      required this.name,
+      required this.year,
+      required this.mileage});
 
   factory Vehicle.fromMap(Map<String, dynamic> data, String documentId) {
     return Vehicle(
       id: documentId,
       name: data['name'],
       year: data['year'],
-      mileage: data['mileage'],
+      mileage: (data['mileage'] as num).toDouble(),
     );
   }
 
