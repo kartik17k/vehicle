@@ -4,8 +4,15 @@ import '../services/firestore.dart';
 import 'add_vehicle.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-class VehicleListPage extends StatelessWidget {
+class VehicleListPage extends StatefulWidget {
+  @override
+  _VehicleListPageState createState() => _VehicleListPageState();
+}
+
+class _VehicleListPageState extends State<VehicleListPage> {
   final FirestoreService firestoreService = FirestoreService();
+  String searchQuery = "";
+  bool isSearching = false;
 
   Color getVehicleColor(Vehicle vehicle) {
     int currentYear = DateTime.now().year;
@@ -26,6 +33,15 @@ class VehicleListPage extends StatelessWidget {
     }
     return Icons.local_gas_station;
   }
+
+  List<Vehicle> filterVehicles(List<Vehicle> vehicles) {
+    if (searchQuery.isEmpty) return vehicles;
+    return vehicles
+        .where((vehicle) =>
+        vehicle.name.toLowerCase().contains(searchQuery.toLowerCase()))
+        .toList();
+  }
+
 
   Future<void> _showDeleteDialog(BuildContext context, Vehicle vehicle) async {
     return showDialog(
@@ -162,21 +178,73 @@ class VehicleListPage extends StatelessWidget {
     );
   }
 
+
+  Widget _buildSearchField() {
+    return TextField(
+      style: TextStyle(color: Colors.black87),
+      decoration: InputDecoration(
+        hintText: 'Search vehicles by name.......',
+        hintStyle: TextStyle(color: Colors.grey),
+        border: InputBorder.none,
+        prefixIcon: Icon(Icons.search, color: Colors.grey,size: 25.0,),
+      ),
+      onChanged: (value) {
+        setState(() {
+          searchQuery = value;
+        });
+      },
+    );
+  }
+
+  List<Widget> _buildAppBarActions() {
+    if (isSearching) {
+      return [
+        IconButton(
+          icon: Icon(Icons.clear, color: Colors.grey),
+          onPressed: () {
+            setState(() {
+              searchQuery = "";
+              isSearching = false;
+            });
+          },
+        ),
+      ];
+    }
+
+    return [
+      IconButton(
+        icon: Icon(Icons.search, color: Colors.grey),
+        onPressed: () {
+          setState(() {
+            isSearching = true;
+          });
+        },
+      ),
+    ];
+  }
+
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.white,
+      title: isSearching
+          ? _buildSearchField()
+          : Text(
+        'My Vehicles',
+        style: TextStyle(
+          color: Colors.black87,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      actions: _buildAppBarActions(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        title: Text(
-          'My Vehicles',
-          style: TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
+      appBar: _buildAppBar(),
       body: StreamBuilder<List<Vehicle>>(
         stream: firestoreService.getVehicles(),
         builder: (context, snapshot) {
@@ -211,13 +279,32 @@ class VehicleListPage extends StatelessWidget {
             );
           }
 
-          List<Vehicle> vehicles = snapshot.data!;
+          List<Vehicle> filteredVehicles = filterVehicles(snapshot.data!);
+
+          if (filteredVehicles.isEmpty && searchQuery.isNotEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.search_off, size: 60, color: Colors.grey),
+                  SizedBox(height: 16),
+                  Text('No matches found'),
+                  SizedBox(height: 8),
+                  Text(
+                    'Try different search terms',
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
+              ),
+            );
+          }
+
           return AnimationLimiter(
             child: ListView.builder(
               padding: EdgeInsets.all(16),
-              itemCount: vehicles.length,
+              itemCount: filteredVehicles.length,
               itemBuilder: (context, index) {
-                Vehicle vehicle = vehicles[index];
+                Vehicle vehicle = filteredVehicles[index];
                 return AnimationConfiguration.staggeredList(
                   position: index,
                   duration: Duration(milliseconds: 375),
