@@ -143,8 +143,8 @@ class _AddVehiclePageState extends State<AddVehiclePage> {
                     if (value!.isEmpty) return 'Enter vehicle year';
                     final year = int.tryParse(value);
                     if (year == null) return 'Enter a valid year';
-                    if (year < 1900 || year > DateTime.now().year + 1) {
-                      return 'Enter a valid year between 1900 and ${DateTime.now().year + 1}';
+                    if (year < 1900 || year > DateTime.now().year) {
+                      return 'Enter a valid year between 1900 and ${DateTime.now().year}';
                     }
                     return null;
                   },
