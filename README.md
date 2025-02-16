@@ -85,14 +85,16 @@ dependencies:
     sdk: flutter
   firebase_core: latest_version
   cloud_firestore: latest_version
+  firebase_auth: latest_version
   provider: latest_version
 ```
 
 
 
 ## **📌 Why These Dependencies?**  
-1️⃣ **`firebase_core` & `cloud_firestore`** → Integrates Firebase Firestore to store and retrieve vehicle data.  
-2️⃣ **`provider`** → Manages state efficiently.  
+ **`firebase_core` & `cloud_firestore`** → Integrates Firebase Firestore to store and retrieve vehicle data. 
+ **`firebase_auth`** → Authentication.  
+ **`provider`** → Manages state efficiently.  
 
 
 ## **🚀 Future Enhancements**  
