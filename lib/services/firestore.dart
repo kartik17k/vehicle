@@ -15,4 +15,8 @@ class FirestoreService {
   Future<void> addVehicle(Vehicle vehicle) async {
     await vehiclesCollection.add(vehicle.toMap());
   }
+
+  Future<void> deleteVehicle(String vehicleId) async {
+    await vehiclesCollection.doc(vehicleId).delete();
+  }
 }
