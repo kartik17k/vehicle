@@ -4,6 +4,8 @@ import '../services/firestore.dart';
 import 'add_vehicle.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'edit_vehicle.dart';
+
 class VehicleListPage extends StatefulWidget {
   @override
   _VehicleListPageState createState() => _VehicleListPageState();
@@ -485,6 +487,13 @@ class _VehicleListPageState extends State<VehicleListPage> {
                   title: Text(vehicle.name, style: TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text('${vehicle.year} • ${vehicle.mileage} km/lt'),
                   onLongPress: () => _showDeleteDialog(context, vehicle),
+                  onTap: (){Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditVehiclePage(vehicle: vehicle),
+                    ),
+                  );
+                  }
                 ),
               );
             },
